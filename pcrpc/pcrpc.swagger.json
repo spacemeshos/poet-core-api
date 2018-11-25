@@ -1,0 +1,342 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "pcrpc.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/prover/clean": {
+      "get": {
+        "operationId": "Clean",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pcrpcCleanResponse"
+            }
+          }
+        },
+        "tags": [
+          "PoetCoreProver"
+        ]
+      }
+    },
+    "/v1/prover/compute": {
+      "get": {
+        "operationId": "Compute",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pcrpcComputeResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "d.x",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "d.n",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "d.h",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PoetCoreProver"
+        ]
+      }
+    },
+    "/v1/prover/getnip": {
+      "get": {
+        "operationId": "GetProof",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pcrpcGetProofResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "c",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "PoetCoreProver"
+        ]
+      }
+    },
+    "/v1/prover/shutdown": {
+      "get": {
+        "operationId": "Shutdown",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pcrpcShutdownResponse"
+            }
+          }
+        },
+        "tags": [
+          "PoetCoreProver"
+        ]
+      }
+    },
+    "/v1/verifier/getrndchallenge": {
+      "get": {
+        "operationId": "GetRndChallenge",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pcrpcGetRndChallengeResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "d.x",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "d.n",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "d.h",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PoetVerifier"
+        ]
+      }
+    },
+    "/v1/verifier/verify": {
+      "get": {
+        "operationId": "VerifyProof",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pcrpcVerifyProofResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "d.x",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "d.n",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "d.h",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "p.phi",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "c",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "PoetVerifier"
+        ]
+      }
+    },
+    "/v1/verifier/verifynip": {
+      "get": {
+        "operationId": "VerifyNIP",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pcrpcVerifyNIPResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "d.x",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "d.n",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "d.h",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "p.phi",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "byte"
+          }
+        ],
+        "tags": [
+          "PoetVerifier"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pcrpcCleanResponse": {
+      "type": "object"
+    },
+    "pcrpcComputeResponse": {
+      "type": "object",
+      "properties": {
+        "phi": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "pcrpcGetNIPResponse": {
+      "type": "object",
+      "properties": {
+        "proof": {
+          "$ref": "#/definitions/pcrpcProof"
+        }
+      }
+    },
+    "pcrpcGetProofResponse": {
+      "type": "object",
+      "properties": {
+        "proof": {
+          "$ref": "#/definitions/pcrpcProof"
+        }
+      }
+    },
+    "pcrpcGetRndChallengeResponse": {
+      "type": "object",
+      "properties": {
+        "c": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pcrpcLabels": {
+      "type": "object",
+      "properties": {
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "byte"
+          }
+        }
+      }
+    },
+    "pcrpcProof": {
+      "type": "object",
+      "properties": {
+        "phi": {
+          "type": "string",
+          "format": "byte"
+        },
+        "l": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pcrpcLabels"
+          }
+        }
+      }
+    },
+    "pcrpcShutdownResponse": {
+      "type": "object"
+    },
+    "pcrpcVerifyNIPResponse": {
+      "type": "object",
+      "properties": {
+        "verified": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "pcrpcVerifyProofResponse": {
+      "type": "object",
+      "properties": {
+        "verified": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    }
+  }
+}
