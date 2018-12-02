@@ -2,28 +2,53 @@ package poet_core_api
 
 import (
 	"context"
+	"fmt"
 	"github.com/spacemeshos/poet-core-api/pcrpc"
 	"testing"
 )
 
-// TODO: improve test, create inner tests loop for different n & h params
-func TestProverAndVerifier(t *testing.T) {
-	ctx := context.Background()
+type testCase struct {
+	x []byte
+	n uint32
+	h string
+}
+
+func genTestCases(x []byte, nMin int, nMax int, hFuncs[]string) []*testCase {
+	var testCases []*testCase
+	for i := nMin; i <= nMax; i++ {
+		for _, hFunc := range hFuncs {
+			testCases = append(testCases, &testCase{x: x, n: uint32(i), h: hFunc})
+		}
+	}
+	return testCases
+}
+
+func TestPoetCoreService(t *testing.T) {
 	prover, cleanUp := NewProverClient(DefaultRPCHostPort)
 	defer cleanUp()
-	defer prover.Clean(ctx, &pcrpc.CleanRequest{})
 	verifier, cleanUp := NewVerifierClient(DefaultRPCHostPort)
 	defer cleanUp()
 
-	var (
-		x = []byte("this is a commitment")
-		n = uint32(6)
-		h = "sha256"
-	)
+	testCases := genTestCases([]byte("this is a commitment"), 1, 5, []string{"sha256", "scrypt"})
+	for _, testCase := range testCases {
+		testCaseStr := fmt.Sprintf("x:%q n:%d h:%s", testCase.x, testCase.n, testCase.h)
 
-	d := &pcrpc.DagParams{X: x, N: n, H: h}
+		success := t.Run(testCaseStr, func(t1 *testing.T) {
+			testProverAndVerifier(t, testCase, prover, verifier)
+		})
+
+		if !success {
+			break
+		}
+	}
+}
+
+func testProverAndVerifier(t *testing.T, tc *testCase, prover pcrpc.PoetCoreProverClient, verifier pcrpc.PoetVerifierClient) {
+	ctx := context.Background()
+	d := &pcrpc.DagParams{X: tc.x, N: tc.n, H: tc.h}
 
 	_, err := prover.Compute(ctx, &pcrpc.ComputeRequest{D: d})
+	defer prover.Clean(ctx, &pcrpc.CleanRequest{})
 	if err != nil {
 		t.Fatal(err)
 	}
