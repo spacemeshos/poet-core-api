@@ -1,9 +1,11 @@
 package poet_core_api
 
 import (
+	"context"
 	"github.com/spacemeshos/poet-core-api/pcrpc"
 	"google.golang.org/grpc"
 	"log"
+	"time"
 )
 
 func NewProverClient(target string) (pcrpc.PoetCoreProverClient, func()) {
@@ -27,11 +29,14 @@ func NewVerifierClient(target string) (pcrpc.PoetVerifierClient, func()) {
 }
 
 func newClientConn(target string) *grpc.ClientConn {
+	ctx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
 	opts := []grpc.DialOption{
 		grpc.WithInsecure(),
+		grpc.WithBlock(),
 	}
+	defer cancel()
 
-	conn, err := grpc.Dial(target, opts...)
+	conn, err := grpc.DialContext(ctx, target, opts...)
 	if err != nil {
 		log.Fatalf("unable to connect to RPC server: %v", err)
 	}
