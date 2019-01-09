@@ -72,7 +72,7 @@ func compute(ctx *cli.Context) error {
 		h string
 	)
 
-	client, cleanUp := api.NewProverClient(	ctx.GlobalString("rpcserver"))
+	client, cleanUp := api.NewProverClient(ctx.GlobalString("rpcserver"))
 	defer cleanUp()
 
 	args := ctx.Args()
@@ -137,7 +137,7 @@ var getNIPCommand = cli.Command{
 }
 
 func getNIP(ctx *cli.Context) error {
-	client, cleanUp := api.NewProverClient(	ctx.GlobalString("rpcserver"))
+	client, cleanUp := api.NewProverClient(ctx.GlobalString("rpcserver"))
 	defer cleanUp()
 
 	res, err := client.GetNIP(context.Background(), &pcrpc.GetNIPRequest{})
@@ -180,7 +180,7 @@ func getProof(ctx *cli.Context) error {
 		c []string
 	)
 
-	client, cleanUp := api.NewProverClient(	ctx.GlobalString("rpcserver"))
+	client, cleanUp := api.NewProverClient(ctx.GlobalString("rpcserver"))
 	defer cleanUp()
 
 	args := ctx.Args()
@@ -212,7 +212,7 @@ var cleanCommand = cli.Command{
 }
 
 func clean(ctx *cli.Context) error {
-	client, cleanUp := api.NewProverClient(	ctx.GlobalString("rpcserver"))
+	client, cleanUp := api.NewProverClient(ctx.GlobalString("rpcserver"))
 	defer cleanUp()
 
 	res, err := client.Clean(context.Background(), &pcrpc.CleanRequest{})

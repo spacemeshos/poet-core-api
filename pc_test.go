@@ -13,7 +13,7 @@ type testCase struct {
 	h string
 }
 
-func genTestCases(x []byte, nMin int, nMax int, hFuncs[]string) []*testCase {
+func genTestCases(x []byte, nMin int, nMax int, hFuncs []string) []*testCase {
 	var testCases []*testCase
 	for i := nMin; i <= nMax; i++ {
 		for _, hFunc := range hFuncs {
